@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>用通配符进行过滤</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/agate.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('pre code').each(function(i, block) {
+                                        hljs.highlightBlock(block);
+                                    });
+                                });
+                            </script>
+                            </head>
+    <style>
+        a{
+            color: white;
+            
+        }
+    
+    
+    span{
+        color: white;
+    }
+    
+    .top-buffer{
+        margin-top: 40px;
+    }
+    
+    /* Make the image fully responsive */
+    .carousel-inner img {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .qq_barcode{
+        
+        width: 100%;
+        height: 20%;
+        
+    }
+    
+    .link-space{
+        margin: 0 10px;
+    }
+    
+
+    pre{
+        white-space: pre-line;
+    }
+     
+    
+    </style>
+    
+    
+    <body style="background-color: .white ">
+        
+        
+        <h3>用通配符进行过滤</h3>
+        <p>利用通配符进行复杂的数据操作。</p>
+
+          <h4>LIKE 与 REGEXP 操作符</h4>
+        <p>当需要搜索产品文本中包含某个特定关键字的所有产品，使用通配符来创建比较特定的数据搜索模式。</p>
+
+<ul>
+    <li>通配符(wildcard) 用来匹配值的一部分特殊字符。</li>
+    <li>搜索模式(search pattern) 由字母值，通配符两租组合构成的搜索条件。</li>
+</ul>
+
+
+<p>通配符是SQL的WHERE子句中的特殊含义字符，子句中使用通配符必须使用LIKE操作符。</p>
+        
+<h3>百分号%通配符</h3>      
+
+<p>表示任何符合出现任意次数。</p> 
+
+<pre>
+    <code class="sql">
+mysql> SELECT prod_id, prod_name
+    -> FROM Products
+    -> WHERE prod_name LIKE 'Fish%';
++---------+-------------------+
+| prod_id | prod_name         |
++---------+-------------------+
+| BNBG01  | Fish bean bag toy |
++---------+-------------------+
+1 row in set (0.01 sec)
+    </code>
+</pre>
+
+<p>检索以Fish 开头的词汇，Fish之后任意词汇，区分大小写。</p>
+
+<pre>
+    <code class="sql">
+mysql> SELECT prod_id, prod_name
+    -> FROM Products
+    -> WHERE prod_name LIKE '%bean bag%';
++---------+---------------------+
+| prod_id | prod_name           |
++---------+---------------------+
+| BNBG01  | Fish bean bag toy   |
+| BNBG02  | Bird bean bag toy   |
+| BNBG03  | Rabbit bean bag toy |
++---------+---------------------+
+3 rows in set (0.00 sec)
+    </code>
+</pre>
+            
+<p>匹配任意位置包含 bean bag的值</p>     
+        
+<pre>
+    <code class="sql">
+mysql> SELECT prod_name
+    -> FROM Products
+    -> WHERE prod_name LIKE 'F%y';
++-------------------+
+| prod_name         |
++-------------------+
+| Fish bean bag toy |
++-------------------+
+1 row in set (0.00 sec)
+    </code>
+</pre>        
+      
+<p>匹配F开头，y结尾的所以产品</p>    
+
+<pre>
+    <code class="sql">
+mysql> SELECT prod_name
+    -> FROM Products
+    -> WHERE prod_name LIKE 'F%y';
++-------------------+
+| prod_name         |
++-------------------+
+| Fish bean bag toy |
++-------------------+
+1 row in set (0.00 sec)
+    </code>
+</pre>            
+      
+<h4>下划线 _ 通配符</h4>
+<p>下划线与%不同的是匹配单个字符，而不是多个字符。</p>
+<pre>
+    <code class="sql">
+mysql> SELECT prod_id, prod_name
+    -> FROM Products
+    -> WHERE prod_name LIKE '_ inch teddy bear';
++---------+-------------------+
+| prod_id | prod_name         |
++---------+-------------------+
+| BR01    | 8 inch teddy bear |
++---------+-------------------+
+1 row in set (0.00 sec)
+    </code>
+</pre>
+
+<p>一个_匹配一个字符串。</p>
+
+<h4>方括号[]通配符</h4>
+<p>匹配任意带有JM的字符串的列。</p>
+
+<pre>
+    <code class="sql">
+mysql> SELECT cust_contact FROM Customers WHERE cust_contact REGEXP '[JM]' ORDER BY cust_contact;
++----------------+
+| cust_contact   |
++----------------+
+| Jim Jones      |
+| John Smith     |
+| Kim Howard     |
+| Michelle Green |
++----------------+
+4 rows in set (0.00 sec)
+    </code>
+</pre>
+
+<p>匹配开头为J的列</p>
+
+<pre>
+    <code class="sql">
+mysql> SELECT cust_contact  FROM Customers WHERE cust_contact REGEXP '[J%]' ORDER BY cust_contact;
++--------------+
+| cust_contact |
++--------------+
+| Jim Jones    |
+| John Smith   |
++--------------+
+2 rows in set (0.01 sec)
+    </code>
+</pre>
+
+<h4>通配符技巧</h4>
+<ul>
+    <li>其他操作如果能达到相同的效果，就不要用通配符。</li>
+    <li>使用通配符尽量，缩小检索范围。</li>
+    <li>主要通配符的位置</li>
+</ul>
+
+
+
+<hr/>
+            
+
+            
+       
+
+      
+        
+        
+        
+ 
+        
+        
+    </body>
+</html>
+
+
