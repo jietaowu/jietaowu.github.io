@@ -99,6 +99,25 @@ mysql> UPDATE user SET authentication_string=PASSWORD("NEWPASSWORD") WHERE User=
                 
             </code>
         </pre>   
+
+
+
+
+         <h4>创建用户</h4>
+            
+        <pre>
+            <code class="sql">
+                
+mysql> CREATE USER 'test1'@'localhost' identified by '1234567';
+Query OK, 0 rows affected (0.00 sec)
+                
+            </code>
+        </pre> 
+
+
+
+
+
     
 
 
@@ -113,7 +132,31 @@ mysql> SHOW GRANTS For root@'localhost'; 查询具体某个用户
             </code>
         </pre> 
 
+       
+
+       <h4>删除用户</h4>
             
+        <pre>
+            <code class="sql">
+                
+mysql> DROP USER 'test1'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+                
+            </code>
+        </pre> 
+     
+
+<h4>GRANT语句授权用户登录</h4>
+            
+        <pre>
+            <code class="sql">
+                
+mysql> GRANT ALL ON *.* TO 'test1'@'192.168.56.1' IDENTIFIED BY '1234567';
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+                
+            </code>
+        </pre> 
+
             
             
             <hr/>
