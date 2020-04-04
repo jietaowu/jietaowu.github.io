@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MySQL用户有关命令</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/agate.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('pre code').each(function(i, block) {
+                                        hljs.highlightBlock(block);
+                                    });
+                                });
+                            </script>
+                            </head>
+    <style>
+        a{
+            color: white;
+            
+        }
+    
+    
+    span{
+        color: white;
+    }
+    
+    .top-buffer{
+        margin-top: 40px;
+    }
+    
+    /* Make the image fully responsive */
+    .carousel-inner img {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .qq_barcode{
+        
+        width: 100%;
+        height: 20%;
+        
+    }
+    
+    .link-space{
+        margin: 0 10px;
+    }
+    
+
+    pre{
+        white-space: pre;
+    }
+     
+    
+    </style>
+    
+    
+    <body style="background-color: .white ">
+        
+        
+        
+        
+        
+        <div class="container"  >
+            
+            <div class="row">
+            
+            
+        
+           
+            
+            <h4>进入</h4>
+            
+            
+
+
+            
+                <code class="sql" >
+                
+                
+                mysql -u usename -p password -P 默认3306
+                mysql -S /tmp/mysql.sock -uroot -h192.168.56.1 -P3306 -p1234567 指定sock登录
+                \h 获取帮助
+                \q 退出 or quit
+              
+            </code>
+            
+          
+
+            
+            
+        <h4>修改msyql密码</h4>
+            
+        <pre>
+            <code class="sql">
+                
+                $ mysql -u root
+                mysql> USE mysql;
+                mysql> UPDATE user SET authentication_string
+                =PASSWORD("NEWPASSWORD") WHERE User='root';
+                
+            </code>
+        </pre>
+           
+
+        <h4>创建用户</h4>
+            
+        <pre>
+            <code class="sql">
+                
+                mysql> CREATE USER 'test1'@'localhost' identified by '1234567';
+Query OK, 0 rows affected (0.00 sec)
+                
+            </code>
+        </pre> 
+            
+    
+
+
+         <h4>查询用户</h4>
+            
+        <pre>
+            <code class="sql">
+                
+               mysql> SELECT USER FROM mysql.user; 查询所有用户
+mysql> SHOW GRANTS For root@'localhost'; 查询具体某个用户
+                
+            </code>
+        </pre> 
+
+            
+            
+            
+            <hr/>
+            
+
+            
+        </div>
+
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- Footer -->
+        <footer class="page-footer font-small stylish-color-dark pt-4">
+            
+            <!-- Social buttons -->
+            <ul class="list-unstyled list-inline text-center">
+                <li class="list-inline-item">
+                    <a class="btn-floating btn-fb mx-1">
+                        <i class="fa fa-facebook"> </i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="btn-floating btn-tw mx-1">
+                        <i class="fa fa-twitter"> </i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="btn-floating btn-gplus mx-1">
+                        <i class="fa fa-google-plus"> </i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="btn-floating btn-li mx-1">
+                        <i class="fa fa-linkedin"> </i>
+                    </a>
+                </li>
+            </ul>
+            <!-- Social buttons -->
+            
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© 2018 </div>
+            <!-- Copyright -->
+            
+        </footer>
+        <!-- Footer -->
+        
+        
+        
+        
+        
+    </body>
+</html>
+
+
