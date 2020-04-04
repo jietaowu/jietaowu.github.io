@@ -79,7 +79,7 @@
             
 
 
-            
+            <pre>
                 <code class="sql" >
                 
                 
@@ -89,7 +89,7 @@
                 \q 退出 or quit
               
             </code>
-            
+            </pre>
           
 
             
@@ -101,8 +101,9 @@
                 
                 $ mysql -u root
                 mysql> USE mysql;
-                mysql> UPDATE user SET authentication_string
-                =PASSWORD("NEWPASSWORD") WHERE User='root';
+                mysql> UPDATE user SET 
+                authentication_string =PASSWORD("NEWPASSWORD") 
+                WHERE User='root';
                 
             </code>
         </pre>
