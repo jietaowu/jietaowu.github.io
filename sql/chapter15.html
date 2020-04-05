@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>更新和删除数据</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/agate.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('pre code').each(function(i, block) {
+                                        hljs.highlightBlock(block);
+                                    });
+                                });
+                            </script>
+                            </head>
+    <style>
+        a{
+            color: white;
+            
+        }
+    
+    
+    span{
+        color: white;
+    }
+    
+    .top-buffer{
+        margin-top: 40px;
+    }
+    
+    /* Make the image fully responsive */
+    .carousel-inner img {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .qq_barcode{
+        
+        width: 100%;
+        height: 20%;
+        
+    }
+    
+    .link-space{
+        margin: 0 10px;
+    }
+    
+
+    pre{
+        white-space: pre-line;
+    }
+     
+    
+    </style>
+    
+    
+    <body style="background-color: .white ">
+        
+        
+        <h3>更新和删除数据</h3>
+        <p>利用UPDATE和DELETE语句进行操作表数据</p>
+    
+
+
+<h4>更新数据</h4>
+
+<p>UPDATE用来更新修改表中的数据</p>
+
+
+<ul>
+    <li>更新表中特定的行</li>
+    <li>更新表中所有行</li>
+</ul>
+<p>注意: 如果省略了WHERE子句，就会更新所有行。</p>
+
+
+
+<p>UPDATE语句有三个部分组合</p>
+<ul>
+    <li>要更新的表</li>
+    <li>列名和他们的新值</li>
+    <li>确定要更新哪些行的过滤条件</li>
+</ul>
+
+<pre>
+    <code class="sql">
+mysql> UPDATE Customers
+    -> SET cust_email = 'Kim@gmail.com'
+    -> WHERE cust_id = '1000000005';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+    </code>
+</pre>
+
+<p>SET命令用来建新值赋予给更新的列，设置了cust_email列为指定的值。
+SET cust_email = 'Kim@gmail.com' WHERE子句告诉要更新哪一行，如果没有WHERE子句，电子邮件将会更新Customers表中所有的行。</p>
+
+
+<p>更新一列多个值</p>
+<pre>
+    <code class="sql">
+mysql> UPDATE Customers
+    -> SET cust_contact = 'Sam Roberts',
+    -> cust_email = 'sam@toyland.com'
+    -> WHERE cust_id = '1000000006';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+    </code>
+</pre>
+
+<p>解释: 使用SET命令，每个‘列=值’用逗号隔开，区分多个列。</p>
+<p>更新某个列NULL</p>
+<p>可以把列设置成NULL，如果表允许设置NULL</p>
+<pre>
+    <code class="sql">
+mysql> UPDATE Customers
+    -> SET cust_email = NULL
+    -> WHERE cust_id = '1000000005';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+    </code>
+</pre>
+
+
+
+<h4>删除数据</h4>
+
+<p>使用DELETE从数据库删除数据,</p>
+
+<ul>
+    <li>从表中删除特定的行</li>
+    <li>从表中删除所有的行</li>
+</ul>
+
+<pre>
+    <code class="sql">
+mysql> DELETE FROM Customers WHERE cust_id = '1000000009';
+Query OK, 1 row affected (0.01 sec)
+    </code>
+</pre>
+
+<p>注意:</p>
+
+<ul>
+    <li>DELETE语句删除行，但不能删除表本身</li>
+    <li>想删除表中所有的行，可以使用TRUNCATE TABLE语句</li>
+</ul>
+
+<h4>更新和删除的原则</h4>
+
+<ul>
+    <li>UPDATE跟DELETE语句都具有WHERE子句，如果忽略WHERE子句建会应用到所有行，所以除非更新所有行</li>
+    <li>保证每个表都有主键，WHERE应用到主键。</li>
+    <li>使用UPDATE和DELETE语句前先，先SELECT进行测试，确保编写的WHERE子句正确。</li>
+    <li>使用强制实施引用完整性数据库，防止误删除行。</li>
+    <li>现在MYSQL不带有WHERE子句的UPDATE或DELETE子句执行。</li>
+</ul>
+
+<pre>
+    <code class="sql">
+mysql> ALTER TABLE Vendors
+    -> ADD vend_phone CHAR(20);
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+    </code>
+</pre>
+
+<p>解释:给Vendors 表添加一个列，数据类型为CHAR</p>
+
+<h4>删除列</h4>
+<pre>
+    <code class="sql">
+mysql> ALTER TABLE Vendors
+    -> DROP COLUMN vend_phone;
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+    </code>
+</pre>
+
+<p>注意: 使用ALTER TABLE 过程是无法撤销的，所以操作之前，需要进行备份。</p>
+
+<h4>删除表</h4>
+
+<p>使用DROP TABLE来删除整个表</p>
+
+<pre>
+    <code class="sql">
+mysql> DROP TABLE CustCopy;
+Query OK, 0 rows affected (0.02 sec)
+    </code>
+</pre>
+
+<p>删除整个CustCopy表。DROPY无法删除带有关系规则的表。</p>
+
+<h4>重命名表</h4>
+
+<p>使用RENAME语句来重命名表</p>
+<pre>
+    <code class="sql">
+mysql> RENAME TABLE Vendor TO Vendors;
+Query OK, 0 rows affected (0.01 sec)
+    </code>
+</pre>
+
+    </body>
+</html>
+
+

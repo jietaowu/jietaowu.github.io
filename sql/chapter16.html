@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>创建和操作表</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/agate.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('pre code').each(function(i, block) {
+                                        hljs.highlightBlock(block);
+                                    });
+                                });
+                            </script>
+                            </head>
+    <style>
+        a{
+            color: white;
+            
+        }
+    
+    
+    span{
+        color: white;
+    }
+    
+    .top-buffer{
+        margin-top: 40px;
+    }
+    
+    /* Make the image fully responsive */
+    .carousel-inner img {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .qq_barcode{
+        
+        width: 100%;
+        height: 20%;
+        
+    }
+    
+    .link-space{
+        margin: 0 10px;
+    }
+    
+
+    pre{
+        white-space: pre-line;
+    }
+     
+    
+    </style>
+    
+    
+    <body style="background-color: .white ">
+        
+        
+        <h3>创建和操作表</h3>
+    
+
+
+<h4>创建表</h4>
+
+<p>创建表的方法</p>
+
+
+<ul>
+    <li>直接用交互创建表和管理工具</li>
+    <li>表也可以直接用SQL语句操纵</li>
+</ul>
+
+
+
+<h4>表创建基础</h4>
+<p>利用CREATE TABLE创建表，需以下信息</p>
+<ul>
+    <li>新表的名字，在关键字CREATE TABLE之后</li>
+    <li>表列的名字和定义，用逗号隔开。</li>
+    <li>部分DBMS需要指定表的位置。</li>
+</ul>
+
+<pre>
+    <code class="sql">
+mysql> CREATE TABLE Products
+    -> ( prod_id CHAR(10) NOT NULL,
+    -> vend_id CHAR(10) NOT NULL,
+    -> prod_name CHAR(254) NOT NULL,
+    -> prod_price DECIMAL(8,2) NOT NULL,
+    -> prod_desc TEXT(1000) NULL
+    -> );
+    </code>
+</pre>
+
+<p>解释: 表名后面跟着的列，是表的定义，括在园括号之中，各列直接用逗号分割，一共有五个表， 列名后面跟数据类型，圆括号结束。</p>
+
+<h4>使用NULL值</h4>
+<p>允许使用NULL值的列，也允许插入行时不给出该列的值，如果不允许该行没值，可以使用NULL</p>
+<pre>
+    <code class="sql">
+mysql> CREATE TABLE Order_s
+    -> (
+    -> order_num INTEGER NOT NULL,
+    -> order_date DATETIME NOT NULL,
+    -> cust_id CHAR(10) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+    </code>
+</pre>
+
+<p>使用列的含义使用NOT NULL来插入，阻止插入的列没事值。</p>
+<p>混合NULL与NOT NULL列的表</p>
+<pre>
+    <code class="sql">
+mysql> CREATE TABLE Vendors
+    -> (
+    -> vend_id CHAR(10) NOT NULL,
+    -> vend_name CHAR(50) NOT NULL,
+    -> vend_address CHAR(50),
+    -> vend_city CHAR(50),
+    -> vend_state CHAR(5),
+    -> vend_zip CHAR(10),
+    -> vend_country CHAR(50)
+    -> );
+    </code>
+</pre>
+
+
+
+<h4>指定默认值</h4>
+
+<p>插入行时，如果不指定值，自动采用默认值</p>
+
+<pre>
+    <code class="sql">
+mysql> CREATE TABLE OrderItems
+    -> (
+    -> order_num INTEGER NOT NULL,
+    -> order_item INTEGER NOT NULL,
+    -> prod_id CHAR(10) NOT NULL,
+    -> quantity INTEGER NOT NULL DEFAULT 1,
+    -> item_price DECIMAL(8,2) NOT NULL
+    -> );
+    </code>
+</pre>
+
+<p>解释: quantity 用于存放订单中的物品，给了一个默认值DEFAULT 1 ，如果没有给值，默认是1</p>
+
+<p>默认值经常用于日期跟时间戳</p>
+<ul>
+    <li>Mysql 用户指定DEFAULT CURRENT_DATE()</li>
+</ul>
+
+<h4>更新表</h4>
+<p>使用 ALTER TABLE 语句来更新内容，但有几个地方要注意</p>
+<ul>
+    <li>表中包含数据是不用对其进行更新。</li>
+    <li>所有的DBMS都允许表添加列</li>
+    <li>许多DBMS不允许删除更新列</li>
+    <li>ALTER TABLE 之后给出要更改的表面。</li>
+    <li>所做更改的列表</li>
+</ul>
+
+<pre>
+    <code class="sql">
+mysql> ALTER TABLE Vendors
+    -> ADD vend_phone CHAR(20);
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+    </code>
+</pre>
+
+<p>解释:给Vendors 表添加一个列，数据类型为CHAR</p>
+
+<h4>删除列</h4>
+<pre>
+    <code class="sql">
+mysql> ALTER TABLE Vendors
+    -> DROP COLUMN vend_phone;
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+    </code>
+</pre>
+
+<p>注意: 使用ALTER TABLE 过程是无法撤销的，所以操作之前，需要进行备份。</p>
+
+<h4>删除表</h4>
+
+<p>使用DROP TABLE来删除整个表</p>
+
+<pre>
+    <code class="sql">
+mysql> DROP TABLE CustCopy;
+Query OK, 0 rows affected (0.02 sec)
+    </code>
+</pre>
+
+<p>删除整个CustCopy表。DROPY无法删除带有关系规则的表。</p>
+
+<h4>重命名表</h4>
+
+<p>使用RENAME语句来重命名表</p>
+<pre>
+    <code class="sql">
+mysql> RENAME TABLE Vendor TO Vendors;
+Query OK, 0 rows affected (0.01 sec)
+    </code>
+</pre>
+
+    </body>
+</html>
+
+
