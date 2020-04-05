@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>汇总数据</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/agate.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('pre code').each(function(i, block) {
+                                        hljs.highlightBlock(block);
+                                    });
+                                });
+                            </script>
+                            </head>
+    <style>
+        a{
+            color: white;
+            
+        }
+    
+    
+    span{
+        color: white;
+    }
+    
+    .top-buffer{
+        margin-top: 40px;
+    }
+    
+    /* Make the image fully responsive */
+    .carousel-inner img {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .qq_barcode{
+        
+        width: 100%;
+        height: 20%;
+        
+    }
+    
+    .link-space{
+        margin: 0 10px;
+    }
+    
+
+    pre{
+        white-space: pre-line;
+    }
+     
+    
+    </style>
+    
+    
+    <body style="background-color: .white ">
+        
+        
+        <h3>汇总数据</h3>
+        <p>关于如何利用函数汇总表的数据。</p>
+
+          <h4>聚集函数</h4>
+    
+
+<ul>
+    <li>确定表中的行数</li>
+    <li>获得表中行组的和</li>
+    <li>找出表列(所有行，特定行)的最大，最小，和平均值</li>
+</ul>
+
+
+<p>上面的例子需要对表中的数据汇总，而不是实际数据本身，所以可以不需要返回时间数据，浪费资源</p>
+
+<h4>聚集函数(aggregate function)</h4>
+
+<p>运行在行组上，计算和返回单个值的函数</p>
+
+<ul>
+    <li>AVG(): 返回所有列或者某个列平均值</li>
+</ul>
+
+<p>计算表中的行数并计算特定列值之和，求得改列的平均值</p>
+
+<pre>
+    <code class="sql">
+mysql> SELECT AVG(prod_price) AS avg_price
+    -> FROM Products;
++-----------+
+| avg_price |
++-----------+
+|  6.823333 |
++-----------+
+1 row in set (0.01 sec)
+    </code>
+</pre>
+
+<p>解释: 计算Products表中所以产品的平均价格</p>
+
+<p>计算特定行的平均值，</p>
+
+<pre>
+    <code class="sql">
+mysql> SELECT AVG(prod_price) AS avg_price
+    -> FROM Products
+    -> WHERE vend_id = 'DLL01';
++-----------+
+| avg_price |
++-----------+
+|  3.865000 |
++-----------+
+1 row in set (0.01 sec)
+    </code>
+</pre>
+
+<p>解释: WHERE 子句过滤出DELL01平均值，并返回该供应商产品的平均值</p>
+
+<ul>
+    <li>COUNT()函数计算表中行的数目或符合特定条件的涵数目</li>
+    <ul>
+        <li>忽略表列中包含的空值(NULL)与非空值，对表中数目进行计算</li>
+        <li>使用COUNT(column) 对特定列中具有值的行进行计算，忽略NULL值</li>
+    </ul>
+</ul>
+
+<pre>
+    <code class="sql">
+mysql> SELECT COUNT(*) AS num_cust
+    -> FROM Customers;
++----------+
+| num_cust |
++----------+
+|        5 |
++----------+
+1 row in set (0.01 sec)
+    </code>
+</pre>
+
+
+<p>返回custoemrs 中客户的总数，不管行中各列的数值</p>
+
+<pre>
+    <code class="sql">
+mysql> SELECT COUNT(cust_email) AS num_cust
+    -> FROM Customers;
++----------+
+| num_cust |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+    </code>
+</pre>
+
+<p>值返回有email地址的客户计数，结果为3，表述只有3个客户有电子邮件地址</p>
+<p>MAX()返回指定的列中最大的值</p>
+
+<pre>
+    <code class="sql">
+mysql> SELECT MAX(prod_price) AS max_price
+    -> FROM Products;
++-----------+
+| max_price |
++-----------+
+|     11.99 |
++-----------+
+1 row in set (0.01 sec)
+    </code>
+</pre>
+
+<p>解释: 返回Products表中最贵的物品价格</p>
+
+<ul>
+    <li>MIN() 返回最小值</li>
+</ul>
+
+<pre>
+    <code class="sql">
+mysql> SELECT MIN(prod_price) AS min_price
+    -> FROM Products;
++-----------+
+| min_price |
++-----------+
+|      3.49 |
++-----------+
+1 row in set (0.00 sec)
+    </code>
+</pre>
+
+<ul>
+    <li>SUM()返回指定的列值的总和</li>
+</ul>
+
+<pre>
+    <code class="sql">
+mysql> SELECT SUM(quantity) AS items_ordered
+    -> FROM OrderItems
+    -> WHERE order_num = 20005;
++---------------+
+| items_ordered |
++---------------+
+|           200 |
++---------------+
+1 row in set (0.01 sec)
+    </code>
+</pre>
+
+<p>解释：返回计算quantity 值之和，WHERE子句限制值统计某个订单的值</p>
+
+<p>用SUM()组合计算值</p>
+
+<pre>
+    <code class="sql">
+mysql> SELECT SUM(item_price*quantity) AS total_price
+    -> FROM OrderItems
+    -> WHERE order_num = 20005;
++-------------+
+| total_price |
++-------------+
+|     1648.00 |
++-------------+
+1 row in set (0.01 sec)
+    </code>
+</pre>
+
+<p>解释: 合计所以订单 item_price价格 乘以quantity数量之和的总数，WHERE子句某个订单物品</p>
+
+<h4>聚集不同值</h4>
+
+<ul>
+    <li>对所有的行执行计算，指定ALL参数或者不改参数(默认是ALL行为)</li>
+    <li>只包含不同的值，指定DISTINCT参数</li>
+</ul>
+
+<pre>
+    <code class="sql">
+mysql> SELECT AVG(DISTINCT prod_price) AS avg_price
+    -> FROM Products
+    -> WHERE vend_id = 'DLL01';
++-----------+
+| avg_price |
++-----------+
+|  4.240000 |
++-----------+
+1 row in set (0.02 sec)
+    </code>
+</pre>
+
+<p>解释:与上一个例子不同的是，排除prod_price 中相同的值，只计算不同的值，数量少了 所以平均值高了</p>
+
+<h4>组合聚集函数</h4>
+
+<p>用SELECT 来组合聚集函数</p>
+
+<pre>
+    <code class="sql">
+mysql> SELECT COUNT(*) AS num_items,
+    -> MIN(prod_price) AS price_min,
+    -> MAX(prod_price) AS price_max,
+    -> AVG(prod_price) AS price_avg
+    -> FROM Products;
++-----------+-----------+-----------+-----------+
+| num_items | price_min | price_max | price_avg |
++-----------+-----------+-----------+-----------+
+|         9 |      3.49 |     11.99 |  6.823333 |
++-----------+-----------+-----------+-----------+
+1 row in set (0.00 sec)
+    </code>
+</pre>
+
+<ul>
+    <li>聚集函数用来总汇数据， SQL支持5个聚集函数，计算速度比在客户端快多</li>
+</ul>
+
+        
+    </body>
+</html>
+
+
