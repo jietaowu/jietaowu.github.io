@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>关于MySQL基础知识 | MySQL基础</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/agate.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('pre code').each(function(i, block) {
+                                        hljs.highlightBlock(block);
+                                    });
+                                });
+                            </script>
+                            </head>
+    <style>
+        a{
+            color: white;
+            
+        }
+    
+    
+    span{
+        color: white;
+    }
+    
+    .top-buffer{
+        margin-top: 40px;
+    }
+    
+    /* Make the image fully responsive */
+    .carousel-inner img {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .qq_barcode{
+        
+        width: 100%;
+        height: 20%;
+        
+    }
+    
+    .link-space{
+        margin: 0 10px;
+    }
+    
+
+    pre{
+        white-space: pre-line;
+    }
+     
+    
+    </style>
+    
+    
+    <body style="background-color: .white ">
+        
+        
+        
+        
+    
+            
+        <h3>关于MySQL基础知识</h3>
+        
+           
+            <h4>基础的概念</h4>
+            
+       <ul>
+           <li>数据库(database): 保存有组织的数据库。</li>
+           <li>表(table) : 特定类型的数据结果化清单。</li>
+       </ul>
+
+       <p>存储在表中的数据是一种类型的数据或者一个清单的数据</p>
+       <ul>
+           <li>模式(schema) 关于数据库和表的布局及特性</li>
+           <li>列(colomn) 表中的一个字段，所以表的不由一个或者多个列组成。</li>
+       </ul>
+
+       <p>理解列最后的办法，是想象成一个网络，网络中每一列存储着一个特定信息。</p>
+       <ul>
+           <li>数据类型(datatype) 所容许的数据类型，每个类别都有相应的数据类型，用来限制该列中允许的类型</li>
+           <li>行(row)：表中的数据是按行存储的，把表想象成网络，垂直的列，水平为行。</li>
+           <li>主键(primary key): 表中每一行都应该有可以唯一标识自己的列，一列中唯一能够识别表中的每一行的值。在设计表是应该总是设计带有主键，设置为主键瞒着的条件为：</li>
+           <ul>
+            <li>任意两行都带有相同的值</li>
+            <li>每个行都必须带有主键值</li>
+            <li>主键列中的值不允许修改更新</li>
+            <li>主键值不能重用。</li>
+
+           </ul>
+
+       </ul>
+
+     <h4>登录 MySQL</h4>
+     <pre>
+       <code class="sql">
+mysql -h 主机名 -u 用户名 -p
+       </code>
+     </pre>
+
+     <p>参数说明：</p>
+     <ul>
+       <li>-h : 指定客户端所要登录的 MySQL 主机名, 登录本机(localhost 或 127.0.0.1)该参数可以省略;</li>
+       <li>-u : 登录的用户名;</li>
+       <li>-p : 告诉服务器将会使用一个密码来登录, 如果所要登录的用户名密码为空, 可以忽略此选项</li>
+     </ul>
+    
+    <p>如果我们要登录本机的 MySQL 数据库，只需要输入以下命令即可：</p>
+    <pre>
+      <code class="sql">
+mysql -u root -p
+      </code>
+    </pre>
+
+
+
+    <h4>创建数据库</h4>
+    <pre>
+      <code class="sql">
+CREATE DATABASE [IF NOT EXISTS] 数据库名;
+      </code>
+    </pre>
+
+    <h4>删除数据库</h4>
+    <pre>
+      <code class="sql">
+DROP DATABASE 数据库名;
+
+DROP DATABASE [IF EXISTS] database_name; //有数据库名的情况下删除
+      </code>
+    </pre>  
+
+    <h4>选择数据库</h4>
+<pre>
+  <code class="sql">
+USE DATABASE 数据库名;
+  </code>
+</pre>  
+
+
+<h4>显示所有的数据库</h4>
+<pre>
+  <code class="sql">
+SHOW DATABASES;
+  </code>
+</pre>
+
+
+
+
+
+
+
+
+
+<h4>创建数据表</h4>
+        
+<pre>
+  <code class="sql">
+CREATE TABLE [IF NOT EXISTS] table_name (column_name column_type);
+  </code>
+</pre>
+
+
+<h4>修改数据表</h4>
+<pre>
+  <code class="sql">
+//添加新的列
+ALTER TABLE table 
+ADD [COLUMN] column_name;
+
+//删除列
+ALTER TABLE table_name
+DROP [COLUMN] column_name;
+  </code>
+</pre>
+
+<h4>数据表添加primary key</h4>
+<pre>
+  <code class="sql">
+ALTER TABLE table_name 
+ADD PRIMARY KEY (column_name,...);
+ </code>
+</pre>
+
+
+<h4>数据表移除primary key</h4>
+<pre>
+  <code class="sql">
+ALTER TABLE table_name
+DROP PRIMARY KEY;
+  </code>
+</pre>
+
+<h4>数据库添加Index</h4>
+<pre>
+  <code class="sql">
+ALTER TABLE table 
+ADD INDEX [name](column, ...);
+  </code>
+</pre>
+
+
+<h4>添加独特的index:</h4>
+<pre>
+  <code class="sql">
+CREATE UNIQUE INDEX index_name 
+ON table_name (column,...);
+  </code>
+</pre>
+
+
+
+<h4>删除数据表</h4>
+<pre>
+  <code class="sql">
+DROP TABLE [IF EXISTS] table_name ;
+  </code>
+</pre>
+
+<h4>表示数据表的类型</h4>
+<pre>
+  <code class="sql">
+DESCRIBE table_name column_name;
+  </code>
+</pre>
+
+
+
+<h4>显示所有的数据表</h4>
+<pre>
+  <code class="sql">
+SHOW TABLES;
+  </code>
+</pre>
+
+<h4>使用数据表</h4>
+<pre>
+  <code class="sql">
+USE TABLE table_name ;
+  </code>
+</pre>
+
+
+
+
+
+
+
+<h4>插入数据</h4>
+<pre>
+  <code class="sql">
+INSERT INTO table_name ( field1, field2,...fieldN )
+                       VALUES
+                       ( value1, value2,...valueN );
+  </code>
+</pre>
+
+<h4>查询数据</h4>
+<pre>
+  <code class="sql">
+SELECT column_name,column_name
+FROM table_name
+[WHERE Clause]
+[LIMIT N][ OFFSET M]
+  </code>
+</pre>
+
+<h4>WHERE 子句</h4>
+<pre>
+  <code class="sql">
+SELECT field1, field2,...fieldN FROM table_name1, table_name2...
+[WHERE condition1 [AND [OR]] condition2.....
+  </code>
+</pre>
+
+<h4>UPDATE 更新</h4>
+
+<pre>
+  <code class="sql">
+UPDATE table_name SET field1=new-value1, field2=new-value2
+[WHERE Clause]
+  </code>
+</pre>
+
+<h4>DELETE 语句</h4>
+<pre>
+  <code class="sql">
+DELETE FROM table_name [WHERE Clause]
+  </code>
+</pre>
+
+<h4>LIKE 子句</h4>
+<pre>
+  <code class="sql">
+SELECT field1, field2,...fieldN 
+FROM table_name
+WHERE field1 LIKE condition1 [AND [OR]] filed2 = 'somevalue'
+  </code>
+</pre>
+
+<h4>UNION 操作符</h4>
+<pre>
+  <code class="sql">
+SELECT expression1, expression2, ... expression_n
+FROM tables
+[WHERE conditions]
+UNION [ALL | DISTINCT]
+SELECT expression1, expression2, ... expression_n
+FROM tables
+[WHERE conditions];
+  </code>
+</pre>
+
+<h4>排序</h4>
+
+<pre>
+  <code class="sql">
+SELECT field1, field2,...fieldN FROM table_name1, table_name2...
+ORDER BY field1 [ASC [DESC][默认 ASC]], [field2...] [ASC [DESC][默认 ASC]]
+  </code>
+</pre>
+
+<h4>GROUP BY 语句</h4>
+<pre>
+  <code class="sql">
+SELECT column_name, function(column_name)
+FROM table_name
+WHERE column_name operator value
+GROUP BY column_name;
+  </code>
+</pre>
+
+<h4>连接的使用</h4>
+<pre>
+  <code class="sql">
+INNER JOIN （内连接,或等值连接）：获取两个表中字段匹配关系的记录
+LEFT JOIN  （左连接）：获取左表所有记录，即使右表没有对应匹配的记录
+RIGHT JOIN  (右连接）： 与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录
+  </code>
+</pre>
+
+<h4>NULL 值处理</h4>
+<pre>
+  <code class="sql">
+    IS NULL: 当列的值是 NULL,此运算符返回 true
+    IS NOT NULL: 当列的值不为 NULL, 运算符返回 true
+    <=>: 比较操作符（不同于 = 运算符），当比较的的两个值相等或者都为 NULL 时返回 true
+  </code>
+</pre>
+
+    </body>
+</html>
+
+
