@@ -136,10 +136,36 @@ Query OK, 0 rows affected (0.08 sec)
        </pre>
 
        <ul>
-           <li>prod_id 主键</li>
-           <li>vend_id 外键，与供应商ID关联</li>
-           <li>decimal(8,2) 作为字符串存储的 DOUBLE 类型，允许固定的小数点。</li>
+           <li>NOT NULL表示值不能为空</li>
+           <li>char(10) 保存固定长度的字符串，这里指定10个字符串</li>
+           <li>vend_id 主键</li>
         </ul>
+
+
+<p>Products 表包含产品的目录</p>
+
+<pre>
+	<code class="sql">
+mysql> CREATE TABLE Products
+    -> (
+    ->   prod_id    char(10)      NOT NULL ,
+    ->   vend_id    char(10)      NOT NULL ,
+    ->   prod_name  char(255)     NOT NULL ,
+    ->   prod_price decimal(8,2)  NOT NULL ,
+    ->   prod_desc  text          NULL
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+	</code>
+</pre>
+
+<ul>
+	<li>prod_id 主键</li>
+	<li>vend_id 外键，与供应商ID关联</li>
+	<li>decimal(8,2) 作为字符串存储的 DOUBLE 类型，允许固定的小数点。</li>
+</ul>
+
+
+
 <p>创建Customers 表</p>
 <pre>
     <code class="sql">
@@ -185,7 +211,8 @@ Query OK, 0 rows affected (0.04 sec)
 
 <p>OrderItems表 存储每个订单的实际物品。</p>
 
-<code class="sql">
+<pre>
+  <code class="sql">
 mysql> CREATE TABLE OrderItems
     -> (
     ->   order_num  int          NOT NULL ,
@@ -196,6 +223,7 @@ mysql> CREATE TABLE OrderItems
     -> );
 Query OK, 0 rows affected (0.02 sec)
 </code>
+</pre>
 
 <ul>
     <li>order_num 订单号，关联到Orders 表的order_num</li>
