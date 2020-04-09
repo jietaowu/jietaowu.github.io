@@ -182,7 +182,7 @@ DROP [COLUMN] column_name;
   </code>
 </pre>
 
-<h4>数据表添加primary key</h4>
+<h4>数据表添加Primary key</h4>
 <pre>
   <code class="sql">
 ALTER TABLE table_name 
@@ -191,7 +191,7 @@ ADD PRIMARY KEY (column_name,...);
 </pre>
 
 
-<h4>数据表移除primary key</h4>
+<h4>数据表移除Primary key</h4>
 <pre>
   <code class="sql">
 ALTER TABLE table_name
@@ -208,7 +208,7 @@ ADD INDEX [name](column, ...);
 </pre>
 
 
-<h4>添加独特的index:</h4>
+<h4>添加独特的Index:</h4>
 <pre>
   <code class="sql">
 CREATE UNIQUE INDEX index_name 
@@ -355,6 +355,16 @@ RIGHT JOIN  (右连接）： 与 LEFT JOIN 相反，用于获取右表所有记�
     <=>: 比较操作符（不同于 = 运算符），当比较的的两个值相等或者都为 NULL 时返回 true
   </code>
 </pre>
+
+
+<h4>创建一个视图</h4>
+<pre>
+  <code class="sql">
+CREATE VIEW [IF NOT EXISTS] view_name 
+AS select_statement;
+  </code>
+</pre>
+
 
     </body>
 </html>
